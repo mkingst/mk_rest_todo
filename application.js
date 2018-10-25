@@ -20,11 +20,16 @@ var app = express();
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
 
+//endpoints
+
 //create task
 app.post('/api/v1.0/task',taskController.createTask);
 
 //get all tasks
 app.get('/api/v1.0/task',taskController.getTask);
+
+//get task by ID (not working)
+app.get('/api/v1.0/task/id/:taskId',taskController.getTaskById);
 
 //instanciate my express server on port 5000
 

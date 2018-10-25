@@ -52,6 +52,31 @@ module.exports = {
 
         });
 
+    },
+
+    //Function to get task by ID
+    
+    
+    getTaskById : function (req, res) {
+
+        //accessing the task ID to find
+        var taskId = req.params.taskId;
+
+        connection.query('SELECT * FROM task where id=?',[taskId],function(err, results, fields) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ code: "taskNotFound", message: "Error occured when finding task by ID" });
+            }
+
+            //if number of results was 0
+            if(results.length===0){
+
+                return res.status(404).json({ code: "taskNotFound", message: "Task with this ID not found" });
+            }
+
+            return res.status(200).json({ code: "taskFound", data:results});
+
+        });
     }
 
 };
