@@ -37,7 +37,7 @@ module.exports = {
         });
 
     },
-    
+
     //Function to get tasks
     getTask: function (req, res) {
 
@@ -55,28 +55,69 @@ module.exports = {
     },
 
     //Function to get task by ID
-    
-    
-    getTaskById : function (req, res) {
+
+
+    getTaskById: function (req, res) {
 
         //accessing the task ID to find
         var taskId = req.params.taskId;
 
-        connection.query('SELECT * FROM task where id=?',[taskId],function(err, results, fields) {
+        connection.query('SELECT * FROM task where id=?', [taskId], function (err, results, fields) {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ code: "taskNotFound", message: "Error occured when finding task by ID" });
             }
 
             //if number of results was 0
-            if(results.length===0){
+            if (results.length === 0) {
 
                 return res.status(404).json({ code: "taskNotFound", message: "Task with this ID not found" });
             }
 
-            return res.status(200).json({ code: "taskFound", data:results});
+            return res.status(200).json({ code: "taskFound", data: results });
 
         });
+    },
+
+    updateTaskById: function (req, res) {
+
+        //accessing the task ID
+        var taskId = req.params.taskId;
+
+        //request data to update
+        var requestData = req.body;
+
+        //if there is an empty PUT request
+        if (!requestData.taskMessage) {
+            return res.status(400).json({ code: "taskUpdateFailed", message: "Task message not available in the body" })
+        }
+
+
+        //Any issies accessing the database?
+        connection.query('SELECT * FROM task where id=?', [taskId], function (err, results, fields) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ code: "taskUpdateFailed", message: "Error occured when accessing database" });
+            }
+
+            //if number of results was 0 / task isn't there
+            if (results.length === 0) {
+
+                return res.status(500).json({ code: "taskUpdateFailed", message: "No record with this ID exists" });
+            }
+
+
+            //otherwise, update the table with the new values. 
+            connection.query('UPDATE task SET taskMessage=?,updatedAt=? where id=?', [requestData.taskMessage, new Date(), taskId], function (err, results, fields) {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ code: "taskUpdateFailed", message: "Error occured when accessing database while updating the task" });
+                }
+                res.status(200).json({ code: "taskUpdated" });
+
+            });
+        });
+
     }
 
 };

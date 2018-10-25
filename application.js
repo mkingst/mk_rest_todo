@@ -20,7 +20,7 @@ var app = express();
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
 
-//endpoints
+//endpoints (all of these call the functions in taskController.js)
 
 //create task
 app.post('/api/v1.0/task',taskController.createTask);
@@ -28,8 +28,11 @@ app.post('/api/v1.0/task',taskController.createTask);
 //get all tasks
 app.get('/api/v1.0/task',taskController.getTask);
 
-//get task by ID (not working)
+//get task by ID 
 app.get('/api/v1.0/task/id/:taskId',taskController.getTaskById);
+
+//Update task by ID 
+app.put('/api/v1.0/task/id/:taskId',taskController.updateTaskById);
 
 //instanciate my express server on port 5000
 
