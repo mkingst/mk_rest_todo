@@ -2,6 +2,9 @@
 
 var express = require('express');
 
+//include a database connection (database.js)
+var connection = require('./app/lib/database.js').connection;
+
 var SERVER_PORT = 5000;
 
 //create express http app instance 
