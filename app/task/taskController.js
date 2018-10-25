@@ -118,6 +118,36 @@ module.exports = {
             });
         });
 
+    },
+
+    deleteTaskById: function (req, res) {
+
+        //accessing the task ID
+        var taskId = req.params.taskId;
+
+        connection.query('SELECT * FROM task where id=?', [taskId], function (err, results, fields) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ code: "taskDeleteFailed", message: "Error occured when finding task from database" });
+            }
+
+            //if number of results was 0 / task isn't there
+            if (results.length === 0) {
+
+                return res.status(500).json({ code: "taskDeleteFailed", message: "No record with this ID exists" });
+            }
+
+
+            //otherwise, delete the task. 
+            connection.query('DELETE FROM task where id=?', [taskId], function (err, results, fields) {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ code: "taskDeleteFailed", message: "Error occured when deleting the task" });
+                }
+                res.status(200).json({ code: "taskDeleted" });
+
+            });
+        });
     }
 
 };

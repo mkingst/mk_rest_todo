@@ -34,6 +34,9 @@ app.get('/api/v1.0/task/id/:taskId',taskController.getTaskById);
 //Update task by ID 
 app.put('/api/v1.0/task/id/:taskId',taskController.updateTaskById);
 
+//Delete task by ID 
+app.delete('/api/v1.0/task/id/:taskId',taskController.deleteTaskById);
+
 //instanciate my express server on port 5000
 
 app.listen(5000,function(){
