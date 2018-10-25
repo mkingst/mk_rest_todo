@@ -5,6 +5,7 @@ var connection = require('../lib/database.js').connection;
 
 module.exports = {
 
+    //function to create task
     createTask: function (req, res) {
 
         //access the data in the reqest body
@@ -29,9 +30,25 @@ module.exports = {
                 console.log(err);
                 return res.status(500).json({ code: "taskCreationFailed", message: "Error occured while creating record" });
             }
-            
+
             //otherwise, send a message showing that is was successful
             return res.status(200).json({ code: "taskCreated", message: "Task creation successfull" });
+
+        });
+
+    },
+    
+    //Function to get tasks
+    getTask: function (req, res) {
+
+        connection.query('SELECT * from task', function (err, results, fields) {
+
+            if (err) {
+                console.log(err);
+                return res.statut(500).json({ code: "taskNotFound", message: "Error occured when getting tasks from database" })
+            }
+
+            return res.status(200).json({ code: "taskFound", data: results });
 
         });
 
