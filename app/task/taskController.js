@@ -32,7 +32,7 @@ module.exports = {
             }
 
             //otherwise, send a message showing that is was successful
-            return res.status(200).json({ code: "taskCreated", message: "Task creation successfull" });
+            return res.status(200).json({ code: "taskCreated", message: "Task creation successful" });
 
         });
 
