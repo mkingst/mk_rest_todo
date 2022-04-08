@@ -6,7 +6,6 @@ This is a simple HTTP RESTful TODO appliction that allows you to create, view, u
 ●	Runs on a HTTP server using express.js (Node.js module)
 ●	Created using node.js (plus express, mysql and body-parser modules).
 
-
 Notes:
 
 1. To run, ensure node.js is installed. Navigate to the repository and run "node application.js". It should start the http server on port 5000.
